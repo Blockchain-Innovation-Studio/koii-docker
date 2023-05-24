@@ -1,0 +1,28 @@
+version: "3.9"
+
+
+services:
+  koii:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    volumes:
+      - /data/koii/keys:/koii/keys
+			- /data/koii/validator-ledger:/home/koii/validator-ledger
+    environment:
+			NODE_ADDRESS: ${NODE_ADDRESS}
+    ports:
+      - "10001:10001"
+      - "10899:10899"
+    command:
+      - postgres
+      - "-c"
+      - 'config_file=/etc/postgresql/postgresql.conf'
+
+    restart: always
+		container_name: koii_node
+    networks:
+      - koii
+
+networks:
+  koii:

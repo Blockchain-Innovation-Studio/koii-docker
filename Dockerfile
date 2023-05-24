@@ -1,5 +1,7 @@
 FROM ubuntu:20.04
 
+VOLUME /koii/keys
+
 ENV TZ="UTC"
 ENV USER_NAME=koii \
     UID=10001 \
@@ -27,3 +29,6 @@ USER koii
 RUN \
     /usr/bin/koii-install-init $KOII_INSTALL_INIT_ARGS
 
+ENV PATH=$PATH:/home/koii/.local/share/koii/install/active_release/bin:
+
+ENTRYPOINT ["koii-validator", "--identity", "/home/koii/validator-keypair.json", "--ledger", "/home/koii/validator-ledger", "--accounts", "/home/koii/validator-accounts", "--entrypoint", "k2-testnet-validator-1.koii.live:10001 --rpc-port 10899 --dynamic-port-range 10000-10500 --limit-ledger-size --gossip-port 10001 --log - --rpc-bind-address 0.0.0.0
